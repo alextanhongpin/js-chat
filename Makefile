@@ -1,3 +1,5 @@
+.PHONY: server client
+
 server:
 	@yarn workspace server start
 

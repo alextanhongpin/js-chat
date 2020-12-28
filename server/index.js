@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
+const redis = require("redis");
 
 const createRouter = require("./router");
 const createSocket = require("./socket");
@@ -14,6 +15,7 @@ const PORT = process.env.PORT || 3000;
 async function main() {
   const app = express();
 
+  const client = redis.createClient();
   app.use(cors());
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
@@ -27,11 +29,12 @@ async function main() {
   });
   const server = http.createServer(app);
 
-  createSocket({ server, authorizer });
+  createSocket({ server, authorizer, redis: client });
 
   server.listen(PORT, () => {
     console.log(`listening on port *:${PORT}. press ctrl + c to cancel.`);
   });
+  // TODO: Graceful shutdown. Terminate redis client (client.end(true))
 }
 
 main().catch(console.error);

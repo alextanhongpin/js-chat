@@ -15,6 +15,13 @@ function createAuthRouter(authorizer) {
     });
   });
 
+  router.post("/authorize", authorizer.middleware(), (req, res) => {
+    const { sub: username } = req.user;
+    return res.status(200).json({
+      username
+    });
+  });
+
   return router;
 }
 

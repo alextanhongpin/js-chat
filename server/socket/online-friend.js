@@ -1,7 +1,8 @@
 // Fake the relationship to display list of users and who is online.
 const friends = {
   john: new Set(["alice", "bob", "jane"]),
-  alice: new Set(["john"])
+  alice: new Set(["john"]),
+  bob: new Set(["john", "alice"])
 };
 
 // Return the list of friends, with their presence status.
