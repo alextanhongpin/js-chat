@@ -1,4 +1,4 @@
-function defined(o = {}) {
+export default function defined(o = {}) {
   for (let k in o) {
     const v = o[k];
     if (v === null || v === undefined) {
@@ -7,5 +7,3 @@ function defined(o = {}) {
   }
   return true;
 }
-
-module.exports = defined;

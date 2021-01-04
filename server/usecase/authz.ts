@@ -1,7 +1,7 @@
-const jwt = require("jsonwebtoken");
-const middleware = require("express-jwt");
+import jwt from "jsonwebtoken";
+import middleware from "express-jwt";
 
-class Authorizer {
+export default class Authorizer {
   #secret = "secret";
   #options = {};
 
@@ -13,11 +13,11 @@ class Authorizer {
     };
   }
 
-  sign({ username: sub }) {
+  sign({ username: sub }: { username: string }): string {
     return jwt.sign({ sub }, this.#secret, this.#options);
   }
 
-  verify(token) {
+  verify(token: string) {
     return jwt.verify(token, this.#secret);
   }
 
@@ -25,5 +25,3 @@ class Authorizer {
     return middleware({ secret: this.#secret, algorithms: ["HS256"] });
   }
 }
-
-module.exports = Authorizer;
