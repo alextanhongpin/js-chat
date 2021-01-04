@@ -1,0 +1,30 @@
+.container {
+}
+
+.presence {
+  display: inline-block;
+  height: 0.5rem;
+  width: 0.5rem;
+  background: #ccc;
+  border-radius: 0.5rem;
+}
+
+.presence.online {
+  background: green;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-column-gap: 0.5rem;
+  align-items: center;
+  height: 3rem;
+  padding: 0 1rem;
+}
+.item.selected {
+  background: #e7e7e7;
+}
+
+.item:hover {
+  background: #eeeeee;
+}
