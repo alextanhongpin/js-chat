@@ -3,7 +3,9 @@ import * as Socket from "socket.io-client";
 
 import useAuth from "hooks/useAuth";
 
-const SOCKET_ENDPOINT = "http://localhost:3000";
+const SOCKET_ENDPOINT =
+  "http://localhost:" + (process.env.REACT_APP_PORT || 3000);
+console.log(SOCKET_ENDPOINT);
 
 const useSocket = (handlers = {}) => {
   const { accessToken } = useAuth();
@@ -56,11 +58,13 @@ const useSocket = (handlers = {}) => {
     [accessToken]
   );
 
-  function addConversation(friendId, conversation) {
+  function addConversation(conversation) {
     setFriends(friends => {
       return friends.map(friend => {
-        // The data set on the client side does not have a user id.
-        if (friend.userId && friend.userId !== friendId) {
+        if (
+          friend.userId !== conversation.senderId &&
+          friend.userId !== conversation.receiverId
+        ) {
           return friend;
         }
         return {

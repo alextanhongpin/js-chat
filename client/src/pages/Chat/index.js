@@ -11,14 +11,18 @@ const Chat = () => {
 
   const { socket, friends, addConversation } = useSocket({
     message: ({ senderId, receiverId, msg, ts, owner }) => {
-      if (senderId === friend) {
+      // I'm interacting with the current user, so the messages should
+      // be visible and updated.
+      if (senderId === friend || receiverId === friend) {
         // Only update if you are chatting with the current user.
         setMessages(messages =>
           messages.concat({ senderId, receiverId, msg, owner, ts })
         );
       } else {
-        // Update the conversations, and add alert.
-        addConversation(senderId, { senderId, receiverId, msg, owner, ts });
+        // I'm not interacting with the user, but I receive updates.
+        // Update the conversations, so that when I start chatting with
+        // the user, I should see new updates.
+        addConversation({ senderId, receiverId, msg, owner, ts });
       }
     }
   });
@@ -41,10 +45,11 @@ const Chat = () => {
         if (response.status !== "ok") {
           return;
         }
-
-        // Update on sender side only.
-        setMessages(messages => messages.concat({ msg, owner: true }));
         setMsg("");
+
+        // NOTE: This is bad, if the same sender is online on multiple apps, the sender will not receive the update.
+        // Update on sender side only.
+        //setMessages(messages => messages.concat({ msg, owner: true }));
       }
     );
   };

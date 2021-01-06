@@ -13,7 +13,7 @@ export default function createSocket(
   // https://socket.io/docs/v3/handling-cors/
   const io: Server = new Server(server, {
     cors: {
-      origin: "http://localhost:3001",
+      origin: ["http://localhost:3000", "http://localhost:3001"],
       methods: ["GET", "POST"]
     },
     serveClient: true
